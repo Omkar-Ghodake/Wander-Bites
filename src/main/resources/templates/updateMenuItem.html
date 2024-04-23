@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Update Menu Item</title>
+  </head>
+  <body>
+    <form
+      action="/foodTruck/updateMenuItem"
+      method="post"
+      enctype="multipart/form-data"
+    >
+      <input type="number" th:value="${menuItem.id}" name="id" />
+      <input
+        type="text"
+        name="disheName"
+        placeholder="Dishe Name"
+        th:value="${menuItem.disheName}"
+      />
+      <input
+        type="text"
+        name="disheDescription"
+        placeholder="Dishe Description"
+        th:value="${menuItem.disheDescription}"
+      />
+      <input
+        type="text"
+        name="price"
+        placeholder="Price"
+        th:value="${menuItem.price}"
+      />
+      <input
+        type="text"
+        name="discount"
+        placeholder="Discount"
+        th:value="${menuItem.discount}"
+      />
+      <input type="text" th:value="${menuItem.category}" name="category" />
+      <div th:if="${menuItem.dishePhoto}!=null">
+        <img
+          th:src="@{'data:image/jpeg;base64,'+${menuItem.dishePhoto}}"
+          alt=""
+          style="width: 15vw; height: 30vh"
+        />
+      </div>
+      <div th:if="${menuItem.dishePhoto}==null">
+        <img
+          th:src="@{/img/imgIcon.png}"
+          alt=""
+          style="width: 15vw; height: 30vh"
+        />
+      </div>
+      <input type="file" name="dishePhoto" />
+      <button type="submit">Update Dishe</button>
+    </form>
+  </body>
+</html>

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<!-- solve user location problem before doing any thing -->
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head th:insert="~{/component/Header.html :: head}">
+    <title>FoodTruck | User</title>
+  </head>
+  <body onload="" class="bg-gray-100 p-0 m-0">
+    <nav th:replace="~{/component/Navbar.html :: navbar}"></nav>
+    <div class="px-[4vw] pt-[7vh] pb-[5vh]">
+      <!-- below code is responsible for getting user location -->
+      <form action="/user/getUserLocation" method="post" hidden>
+        <p id="msg"></p>
+        <input type="text" name="lat" id="lat" th:value="${user.lat}" />
+        <input type="text" name="long" id="long" th:value="${user.longi}" />
+        <button type="submit" id="sendLocation">Go Online</button>
+      </form>
+
+      <h1
+        class="text-center text-[1.4rem] font-semibold underline underline-offset-[0.7rem] mb-[2rem]"
+      >
+        Food Trucks Near By You
+      </h1>
+
+      <div
+        th:each="foodtruck : ${foodtrucks}"
+        class="flex flex-col justify-center items-center mt-[1.5rem]"
+      >
+        <div
+          class="border-[1px] border-black rounded-lg bg-white w-[22rem] h-[14rem] shadow-md shadow-black flex p-[0.5rem]"
+        >
+          <img
+            th:if="${foodtruck.foodTruckImage!=null}"
+            th:src="@{'data:image/jpeg;base64,'+${foodtruck.foodTruckImage}}"
+            alt=""
+            class="rounded-lg w-[10rem] border-black border-[1px]"
+          />
+          <img
+            th:if="${foodtruck.foodTruckImage==null}"
+            th:src="@{/img/imgIcon.png}"
+            alt=""
+            class="rounded-lg w-[10rem] border-black border-[1px]"
+          />
+          <div class="ml-[1rem]">
+            <a th:href="@{'/user/foodtruckDetails/'+${foodtruck.email}}"
+              ><div class="pb-[0.5rem]">
+                <p
+                  th:text="${foodtruck.foodTruckName}"
+                  class="text-wrap font-semibold text-[1.2rem]"
+                ></p>
+                <span
+                  th:if="${foodtruck.status=='Closed'}"
+                  th:text="${foodtruck.status}"
+                  class="bg-red-600 px-[0.3rem] py-[0.1rem] font-semibold rounded-md text-white"
+                ></span>
+                <span
+                  th:if="${foodtruck.status=='Open'}"
+                  th:text="${foodtruck.status}"
+                  class="bg-green-600 px-[0.3rem] py-[0.1rem] font-semibold rounded-md text-white"
+                ></span></div
+            ></a>
+            <p class="text-wrap font-semibold text-[0.9rem] mb-[0.2rem]">
+              Type:
+              <span class="font-normal">Vegetarian and Non-Vegetarian</span>
+            </p>
+            <p class="text-wrap font-semibold text-[0.9rem] mb-[0.2rem]">
+              Timing:
+              <span
+                th:text="${foodtruck.closingTime}"
+                class="font-normal"
+              ></span>
+            </p>
+            <p class="text-wrap font-semibold text-[0.9rem] mb-[0.2rem]">
+              Distance:
+              <span th:text="${foodtruck.distance}" class="font-normal"></span
+              ><span class="font-semibold"> Km</span>
+            </p>
+
+            <a
+              th:href="@{'https://www.google.com/maps/place/'+${foodtruck.lat}+','+${foodtruck.longi}}"
+              target="_blank"
+              ><p class="text-wrap font-semibold text-[0.9rem] mb-[0.2rem]">
+                <i class="fa-solid fa-location-dot"></i>
+                <span class="font-semibold"> FoodTruck Location</span>
+              </p></a
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+    <script th:src="@{/js/getUserLocation.js}"></script>
+  </body>
+</html>

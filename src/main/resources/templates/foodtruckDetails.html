@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head th:insert="~{/component/Header.html :: head}">
+    <title>FoodTruck</title>
+  </head>
+  <body class="bg-gray-100 p-0 m-0">
+    <nav th:replace="~{/component/Navbar.html :: navbar}"></nav>
+
+    <div class="py-[3vh] w-full">
+      <div class="px-[5vw] w-full flex flex-col justify-center items-center">
+        <div>
+          <img
+            th:src="@{'data:image/jpeg;base64,'+${foodtruck.foodTruckImage}}"
+            alt=""
+            class="rounded-[100%] border-[1px] border-gray-500 w-[8rem] h-[8rem] shadow-black shadow-md"
+          />
+          <h1
+            th:text="${foodtruck.foodTruckName}"
+            class="text-center font-bold text-[1.3rem] my-[1rem]"
+          ></h1>
+        </div>
+        <div class="flex justify-center">
+          <div class="w-[50%] mr-[1rem]">
+            <p class="text-wrap font-semibold text-[0.9rem] mb-[1rem]">
+              Type:
+              <span class="font-normal">Vegetarian and Non-Vegetarian</span>
+            </p>
+            <p class="text-wrap font-semibold text-[0.9rem]">
+              Timing:
+              <span
+                th:text="${foodtruck.closingTime}"
+                class="font-normal"
+              ></span>
+            </p>
+          </div>
+          <div class="w-[50%]">
+            <p class="text-wrap font-semibold text-[0.9rem] mb-[1rem]">
+              Distance:
+              <span th:text="${foodtruck.distance}" class="font-normal"></span
+              ><span class="font-semibold"> Km</span>
+            </p>
+
+            <a
+              th:href="@{'https://www.google.com/maps/place/'+${foodtruck.lat}+','+${foodtruck.longi}}"
+              target="_blank"
+              ><p class="text-wrap font-semibold text-[0.9rem] mb-[0.2rem]">
+                <i class="fa-solid fa-location-dot"></i>
+                <span> FoodTruck Location</span>
+              </p></a
+            >
+          </div>
+        </div>
+      </div>
+
+      <div
+        class="flex justify-between border-[1px] border-t-black border-b-black mt-[2rem] bg-white"
+      >
+        <!-- handleFoodtruckMenu is defined in Rating.js file -->
+        <h1
+          id="menuBtn"
+          class="py-[0.5rem] font-semibold px-[2rem] cursor-pointer bg-gray-400"
+          onclick="handleFoodtruckMenu('menu')"
+        >
+          Menu
+        </h1>
+        <h1
+          id="galleryBtn"
+          class="py-[0.5rem] font-semibold px-[2rem]"
+          onclick="handleFoodtruckMenu('gallery')"
+        >
+          Gallery
+        </h1>
+        <h1
+          id="feedbackBtn"
+          class="py-[0.5rem] font-semibold px-[2rem]"
+          onclick="handleFoodtruckMenu('feedback')"
+        >
+          Feedbacks
+        </h1>
+      </div>
+
+      <!-- below div is for foodtruck Menu -->
+      <div id="menu" class="">
+        <!-- Filter by Category wise -->
+        <!-- Filter Js is written in Rating.js file -->
+        <div
+          class="bg-white border-b-[1px] border-black py-[0.5rem] px-[1rem] flex justify-between items-center"
+        >
+          <p th:unless="${category}" class="font-semibold">All Category</p>
+          <p
+            th:if="${category}"
+            th:text="${category}"
+            class="font-semibold"
+          ></p>
+          <p onclick="handleFilterBox()">
+            <i class="fa-solid fa-filter mr-[0.5rem]"></i
+            ><span class="font-semibold">Filter</span>
+          </p>
+
+          <div
+            id="filterBox"
+            class="hidden bg-white absolute w-[12rem] py-[1rem] px-[1rem] left-[50vw] top-[55vh] border-[1px] border-black border-t-white"
+          >
+            <div class="border-b-[1px] border-gray-400 mb-[0.5rem] pb-[0.2rem]">
+              <a th:href="@{'/user/foodtruckDetails/'+${email}}"
+                >All Menu Item
+              </a>
+            </div>
+
+            <div th:each="category : ${categories}">
+              <div
+                class="border-b-[1px] border-gray-400 mb-[0.5rem] pb-[0.2rem]"
+              >
+                <a
+                  th:href="@{'/user/menuItemFilter/category='+${category}+'&email='+${email}}"
+                  th:text="${category}"
+                ></a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="flex flex-col px-[1rem] items-center"
+          th:each="foodMenu : ${foodtruck.menuEntity}"
+        >
+          <div
+            class="border-[1px] border-black rounded-lg bg-white w-[22rem] h-[13rem] shadow-md shadow-black flex p-[0.5rem] my-[0.5rem]"
+          >
+            <img
+              th:if="${foodMenu.dishePhoto!=null}"
+              th:src="@{'data:image/jpeg;base64,'+${foodMenu.dishePhoto}}"
+              alt=""
+              class="rounded-lg w-[10rem] border-black border-[1px]"
+            /><img
+              th:if="${foodMenu.dishePhoto==null}"
+              th:src="@{/img/imgIcon.png}"
+              alt=""
+              class="rounded-lg w-[10rem] border-black border-[1px]"
+            />
+
+            <div class="ml-[1rem]">
+              <p
+                th:text="${foodMenu.disheName}"
+                class="text-wrap font-semibold text-[1.2rem] mb-[0.5rem]"
+              ></p>
+              <p class="text-wrap font-semibold text-[0.9rem] mb-[0.2rem]">
+                Type:
+                <span class="font-normal" th:text="${foodMenu.category}"></span>
+              </p>
+              <p class="text-wrap font-semibold text-[0.9rem] mb-[0.2rem]">
+                Description:
+                <span
+                  class="font-normal"
+                  th:text="${foodMenu.disheDescription}"
+                ></span>
+              </p>
+              <p class="text-wrap font-semibold text-[0.9rem] mb-[0.2rem]">
+                Price:
+                <span class="font-normal" th:text="${foodMenu.price}"></span
+                ><span> &#x20B9;</span>
+              </p>
+              <p class="text-wrap font-semibold text-[0.9rem] mb-[0.2rem]">
+                Discount:
+                <span class="font-normal" th:text="${foodMenu.discount}"></span
+                ><span> %</span>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- below div is for foodtruck photo gallery -->
+      <div id="gallery" class="hidden">
+        <div
+          class="flex flex-wrap justify-center"
+          th:each="img : ${foodtruck.galleryPhotos}"
+        >
+          <img
+            th:src="@{'data:image/jpeg;base64,'+${img.image}}"
+            alt=""
+            class="w-[23rem] h-[30rem] my-[0.5rem]"
+          />
+        </div>
+      </div>
+
+      <!-- below div is for foodtruck feedback -->
+      <div id="feedback" class="hidden">
+        <div
+          class="flex flex-col justify-center items-center py-[1rem] border-[1px] border-b-black"
+        >
+          <h1 class="text-center text-[2rem] font-semibold mb-[1rem]">
+            Feedback
+          </h1>
+          <form action="/user/saveFeedback" method="post">
+            <div class="flex flex-col">
+              <textarea
+                placeholder="Feedback"
+                name="feedback"
+                id="feedback"
+                cols="40"
+                rows="4"
+                class="mb-[0.5rem] focus:outline-none border-[1px] border-black rounded-md p-[0.5rem]"
+                required
+              ></textarea>
+              <input
+                type="text"
+                name="foodtruckEmail"
+                th:value="${foodtruck.email}"
+                hidden
+              />
+              <input
+                type="text"
+                name="rating"
+                id="rating"
+                placeholder="Rating"
+                class="hidden"
+                required
+              />
+              <div>
+                <i
+                  class="fa-regular fa-star"
+                  onclick="handleRating(1)"
+                  id="star1"
+                ></i
+                ><i
+                  class="fa-regular fa-star"
+                  onclick="handleRating(2)"
+                  id="star2"
+                ></i
+                ><i
+                  class="fa-regular fa-star"
+                  onclick="handleRating(3)"
+                  id="star3"
+                ></i
+                ><i
+                  class="fa-regular fa-star"
+                  onclick="handleRating(4)"
+                  id="star4"
+                ></i
+                ><i
+                  class="fa-regular fa-star"
+                  onclick="handleRating(5)"
+                  id="star5"
+                ></i>
+                <script src="/js/Rating.js"></script>
+              </div>
+              <div class="flex justify-center items-center">
+                <button
+                  type="submit"
+                  class="bg-black text-white py-[0.5rem] px-[2rem] w-fit"
+                >
+                  Submit
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+
+        <div class="flex flex-wrap justify-center mt-[1rem]">
+          <div
+            class="w-[21rem] border-[1px] border-black shadow-black shadow-md rounded-md mt-[1rem]"
+            th:each="feedback : ${foodtruck.feedbacks}"
+          >
+            <div class="py-[0.5rem] px-[1rem] border-[1px] border-b-black">
+              <h1 class="flex justify-between">
+                <span
+                  class="font-semibold"
+                  th:text="${feedback.userName}"
+                ></span>
+                <span>
+                  <i
+                    th:class="${feedback.rating>=1?'fa-solid':'fa-regular'}+' fa-star'"
+                  ></i>
+                  <i
+                    th:class="${feedback.rating>=2?'fa-solid':'fa-regular'}+' fa-star'"
+                  ></i>
+                  <i
+                    th:class="${feedback.rating>=3?'fa-solid':'fa-regular'}+' fa-star'"
+                  ></i>
+                  <i
+                    th:class="${feedback.rating>=4?'fa-solid':'fa-regular'}+' fa-star'"
+                  ></i>
+                  <i
+                    th:class="${feedback.rating>=5?'fa-solid':'fa-regular'}+' fa-star'"
+                  ></i>
+                </span>
+              </h1>
+              <p th:text="${feedback.date}"></p>
+            </div>
+            <div class="py-[1rem] px-[1.2rem]">
+              <p class="text-justify" th:text="${feedback.feedback}"></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

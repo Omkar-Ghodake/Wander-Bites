@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head th:insert="~{/component/Header.html :: head}">
+    <title>User | Registration</title>
+  </head>
+  <body class="bg-gray-100 p-0 m-0">
+    <nav th:replace="~{/component/Navbar.html :: navbar}"></nav>
+
+    <div th:if="${error}!=''">
+      <div
+        th:replace="~{/component/Toaster.html :: toaster(color=${error}=='Registration Successful, LogIn'?green:red,msg=${error})}"
+      ></div>
+    </div>
+
+    <div class="flex justify-center items-center w-[100vw] h-[93vh] px-[2rem]">
+      <form action="/user/saveNewUser" method="post">
+        <div
+          class="flex flex-col bg-white pb-[5vh] rounded-md shadow-md shadow-black"
+        >
+          <div
+            class="flex justify-center items-center mb-[2rem] rounded-t-md border-[1px] border-black"
+          >
+            <a
+              href="/public/registerUser"
+              class="text-center w-[45%] py-[1rem] text-[1rem] font-bold bg-blue-400 rounded-tl-md text-white"
+              >Register User</a
+            >
+            <a
+              href="/public/registerFoodTruck"
+              class="text-center w-[55%] py-[1rem] text-[1rem] font-semibold"
+              >Register FoodTruck</a
+            >
+          </div>
+
+          <div class="px-[2rem] flex flex-col">
+            <label for="name" class="font-semibold text-[1rem] mb-[0.5rem]"
+              >Full Name</label
+            >
+            <input
+              type="text"
+              name="name"
+              class="w-[65vw] h-[4vh] border-[1px] border-black focus:outline-none pl-[0.5rem] text-[1.1rem] rounded-md mb-[1rem]"
+            />
+            <label for="email" class="font-semibold text-[1rem] mb-[0.5rem]"
+              >Email</label
+            >
+            <input
+              type="email"
+              name="email"
+              class="w-[65vw] h-[4vh] border-[1px] border-black focus:outline-none pl-[0.5rem] text-[1.1rem] rounded-md mb-[1rem]"
+            />
+
+            <label for="password" class="font-semibold text-[1rem] mb-[0.5rem]"
+              >Password</label
+            >
+            <div
+              class="border-[1px] border-black h-[4vh] rounded-md text-[1.1rem] flex items-center mb-[1rem] flex justify-center items-center"
+            >
+              <input
+                id="pass"
+                type="password"
+                name="password"
+                class="w-[56vw] focus:outline-none pl-[0.5rem] text-[1.1rem] rounded-md"
+              />
+              <div class="cursor-pointer" onclick="handlePass()">
+                <i class="fa-solid fa-eye" id="show"></i
+                ><i class="fa-solid fa-eye-slash hidden" id="hide"></i>
+              </div>
+            </div>
+
+            <label for="cpassword" class="font-semibold text-[1rem] mb-[0.5rem]"
+              >Confirm Password</label
+            >
+            <div
+              class="border-[1px] border-black h-[4vh] rounded-md text-[1.1rem] flex items-center mb-[2rem] flex justify-center items-center"
+            >
+              <input
+                id="cpass"
+                type="password"
+                name="cpassword"
+                class="w-[56vw] focus:outline-none pl-[0.5rem] text-[1.1rem] rounded-md"
+              />
+              <div class="cursor-pointer" onclick="handleCPass()">
+                <i class="fa-solid fa-eye" id="cshow"></i
+                ><i class="fa-solid fa-eye-slash hidden" id="chide"></i>
+              </div>
+            </div>
+            <script src="/js/passwordVisibility.js"></script>
+
+            <button
+              type="submit"
+              class="bg-blue-400 text-white text-lg font-semibold rounded-lg py-[0.3rem] shadow-sm shadow-black mb-[1.3rem]"
+            >
+              Register User
+            </button>
+            <p>
+              Old User?
+              <a
+                href="/public/loginPage"
+                class="text-blue-500 underline underline-offset-[0.3rem]"
+              >
+                LogIn</a
+              >
+            </p>
+          </div>
+        </div>
+      </form>
+    </div>
+  </body>
+</html>

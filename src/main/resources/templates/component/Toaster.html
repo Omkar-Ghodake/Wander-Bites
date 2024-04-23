@@ -1,0 +1,33 @@
+<div
+  th:if="${msg}"
+  id="toaster"
+  th:fragment="toaster(color,msg)"
+  class="w-full flex justify-center items-center absolute top-0 z-[-1]"
+>
+  <script>
+    let toaster = document.getElementById("toaster");
+    setTimeout(() => {
+      toaster.classList.add("translate-y-[4rem]");
+      toaster.classList.add("duration-500");
+    }, 500);
+    setTimeout(() => {
+      toaster.classList.remove("translate-y-[4rem]");
+      toaster.classList.remove("duration-500");
+
+      toaster.classList.add("translate-y-[-4rem]");
+      toaster.classList.add("duration-500");
+    }, 4000);
+  </script>
+  <div
+    th:if="${color}=='red'"
+    class="w-[60vw] h-[5vh] border-[1px] border-red-800 bg-red-300 rounded-md flex justify-center items-center text-red-900 font-semibold"
+  >
+    <p th:text="${msg}"></p>
+  </div>
+  <div
+    th:if="${color}=='green'"
+    class="w-[60vw] h-[5vh] border-[1px] border-green-800 bg-green-300 rounded-md flex justify-center items-center text-green-900 font-semibold"
+  >
+    <p th:text="${msg}"></p>
+  </div>
+</div>
