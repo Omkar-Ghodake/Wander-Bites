@@ -44,7 +44,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(
                         auth -> auth
                                 .requestMatchers("/public/**", "/foodTruck/saveNewFoodTruck", "/user/saveNewUser",
-                                        "/img/**", "/js/**")
+                                        "/img/**", "/js/**", "/css/**")
                                 .permitAll()
                                 .requestMatchers("/foodTruck/**").hasRole("FOODTRUCK")
                                 .requestMatchers("/user/**").hasRole("USER")
