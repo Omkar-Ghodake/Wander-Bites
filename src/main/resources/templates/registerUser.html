@@ -1,10 +1,25 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-  <head th:insert="~{/component/Header.html :: head}">
-    <title>User | Registration</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/js/style.css" />
+    <link
+      rel="icon"
+      type="image/x-icon"
+      href="/src/main/resources/static/img/favicon/LOGO NEW.png"
+    />
+
+    <title>User | Sign up</title>
   </head>
+
   <body class="bg-gray-100 p-0 m-0">
-    <nav th:replace="~{/component/Navbar.html :: navbar}"></nav>
+    <nav class="sign">
+      <a href="./index.html" class="a-logo"
+        ><img src="/img/LOGO NEW.png" class="logo"
+      /></a>
+      <h2 class="reg-head">REGISTRATION PAGE</h2>
+    </nav>
 
     <div th:if="${error}!=''">
       <div

@@ -1,25 +1,25 @@
 function getLocation(e) {
   if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(showPosition);
+    navigator.geolocation.getCurrentPosition(showPosition)
   } else {
-    msg.innerHTML = "Geolocation is not supported by this browser.";
+    msg.innerHTML = 'Geolocation is not supported by this browser.'
   }
-  setTimeout(sendLocation, 500);
+  setTimeout(sendLocation, 500)
 }
 
 function showPosition(position) {
-  lat = document.getElementById("lat");
-  long = document.getElementById("long");
-  lat.value = position.coords.latitude;
-  long.value = position.coords.longitude;
+  lat = document.getElementById('lat')
+  long = document.getElementById('long')
+  lat.value = position.coords.latitude
+  long.value = position.coords.longitude
 }
 
 function sendLocation() {
-  document.getElementById("sendLocation").click();
+  document.getElementById('sendLocation').click()
 }
 
-if (document.getElementById("lat").value == "") {
-  getLocation();
-}
+// if (document.getElementById('lat').value == '' && navigator.geolocation) {
+//   getLocation()
+// }
 
-console.log(document.getElementById("lat").value);
+console.log(document.getElementById('lat').value)
