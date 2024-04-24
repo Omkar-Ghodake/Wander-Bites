@@ -27,6 +27,7 @@ public class FoodtruckEntity {
     private String name;
     private String foodTruckName;
     private String email;
+    private String contact;
     private String password;
     private String role = "ROLE_FOODTRUCK";
 
