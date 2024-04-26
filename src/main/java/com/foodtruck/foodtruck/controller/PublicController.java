@@ -61,4 +61,10 @@ public class PublicController {
             return PATH;
     }
 
+    @RequestMapping("/aboutUs")
+    public String aboutUs() {
+
+        return "/aboutUs";
+    }
+
 }

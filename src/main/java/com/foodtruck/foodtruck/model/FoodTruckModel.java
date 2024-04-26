@@ -11,7 +11,10 @@ public class FoodTruckModel {
     private String name;
     private String foodTruckName;
     private String email;
+    private String contact;
     private String address;
     private String password;
     private String cpassword;
+    private String openingTime;
+    private String closingTime;
 }

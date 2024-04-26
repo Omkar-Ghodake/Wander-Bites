@@ -10,22 +10,40 @@
       rel="stylesheet"
     />
     <link rel="icon" type="image/x-icon" href="/img/LOGO NEW.png" />
+    <style>
+      input::file-selector-button {
+        background-image: linear-gradient(
+          to right,
+          #ff7a18,
+          #af002d,
+          #319197 100%,
+          #319197 200%
+        );
+        background-position-x: 0%;
+        background-size: 200%;
+        border: 0;
+        border-radius: 8px;
+        color: #fff;
+        padding: 0.5rem 1rem;
+        text-shadow: 0 1px 1px #333;
+        transition: all 0.25s;
+      }
+    </style>
   </head>
-  <body class="bg-gray-100 p-0 m-0">
+  <body>
     <nav class="navbar-truck">
       <img src="/img/LOGO NEW.png" class="nav-logo" alt="">
       <ul class="nav-list-truck">
         <li>
-          <button class="box-upd"><a href="#">Update</a></button>
+          <button class="box-upd"><a href="/foodTruck/truckProfile">Update</a></button>
         </li>
   
         <li>
           <div class="dropdown">
             <a href="#" class="box-acc" onclick=drop()>Account</a>
             <div id="myDropdown" class="dropdown-content">
-              <a href="#about">About Us</a>
-              <a href="#contact">Contact Us</a>
-              <a href="./index.html">Logout</a>
+              <a href="/public/aboutUs">About Us</a>
+              <a href="/logout">Logout</a>
             </div>
           </div>
         </li>
@@ -68,7 +86,7 @@
                   <span class="fa fa-star checked" th:text="${foodtruck.rating}"
                     >4.3</span
                   >
-                  <a href="#reviewsBox" class="review">3 reviews</a>
+                  <a href="#reviewsBox" class="review"><span th:text="${totalReviews}"></span> Reviews</a>
                   <h5 class="cuisine">Pizza,Italian,snacks</h5>
                 </div>
               </div>
@@ -82,7 +100,7 @@
                     justify-content: space-between;
                   "
                 >
-                  Photos
+                  <p>Photos(<span th:text="${totalPhotos}"></span>)</p>
                   <div>
                     <form
                       action="/foodTruck/addGalleryPhoto"
@@ -172,6 +190,7 @@
                     >
                   </div>
                 </h2>
+
                 <div th:each="category : ${categories}">
                   <h3 class="view" th:text="${category}"></h3>
 
@@ -204,8 +223,23 @@
                           <span th:text="${menu.discount}"></span>&percnt;
                         </div>
                       </div>
+                      <div style="display: flex; justify-content: space-around; margin-top: 1rem;">
+                        <a
+                        th:href="@{'/foodTruck/deleteMenuItem/'+${menu.id}}"
+                          style="text-decoration: none; color: white"
+                          ><i
+                            class="fa-solid fa-trash"
+                            style="cursor: pointer; font-size: 1.5rem"
+                          ></i
+                        ></a>
+                        <a
+                          th:href="@{'/foodTruck/menuItem/'+${menu.id}}"
+                          style="text-decoration: none; color: white"
+                          ><i class="fa-solid fa-pen-to-square" style="cursor: pointer; font-size: 1.5rem"></i></a>
+                      </div>
                     </div>
                   </div>
+                  
                 </div>
               </div>
 

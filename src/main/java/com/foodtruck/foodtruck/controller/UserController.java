@@ -60,10 +60,12 @@ public class UserController {
         if (u == null && f == null) {
             if (userModel.getPassword().equals(userModel.getCpassword())
                     && userModel.getName().length() >= 3
-                    && userModel.getEmail().length() >= 9) {
+                    && userModel.getEmail().length() >= 9
+                    && userModel.getContact().length() == 10) {
                 UserEntity userEntity = new UserEntity();
                 userEntity.setName(userModel.getName());
                 userEntity.setEmail(userModel.getEmail());
+                userEntity.setContact(userModel.getContact());
                 userEntity.setPassword(passwordEncoder.encode(userModel.getPassword()));
                 userServiceImpl.saveNewUser(userEntity);
                 m.addFlashAttribute("error", "Registration Successful, LogIn");
@@ -195,31 +197,29 @@ public class UserController {
         model.addAttribute("isFoodtruck", role.contains("ROLE_FOODTRUCK"));
         model.addAttribute("categories", categories);
         model.addAttribute("foodtruck", foodtruckEntity);
+        model.addAttribute("totalReviews", foodtruckEntity.getFeedbacks().size());
+        model.addAttribute("totalPhotos", foodtruckEntity.getGalleryPhotos().size());
         return "/foodtruckDetails";
     }
 
-    @RequestMapping("/menuItemFilter/category={category}&email={email}")
-    public String menuItemFilter(@PathVariable("category") String category, @PathVariable("email") String email,
-            Model model) {
-        FoodtruckEntity foodtruckEntity = foodTruckServiceImpl.findFoodTruckByEmail(email);
-        Set<String> categories = new HashSet<String>();
-        for (MenuEntity menuEntity : foodtruckEntity.getMenuEntity())
-            categories.add(menuEntity.getCategory());
+    @RequestMapping("/userProfile")
+    public String userProfile(Authentication authentication, Model model) {
+        UserEntity userEntity = userServiceImpl.findUser(authentication.getName());
+        userEntity.setId(null);
+        userEntity.setPassword(null);
+        userEntity.setRole(null);
+        model.addAttribute("user", userEntity);
+        return "updateUser";
+    }
 
-        List<MenuEntity> menuList = menuListServiceImpl.filterMenuList(category);
-
-        foodtruckEntity.setMenuEntity(menuList);
-        foodtruckEntity.setId(null);
-        foodtruckEntity.setRole(null);
-        foodtruckEntity.setPassword(null);
-
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        Set<String> role = AuthorityUtils.authorityListToSet(authentication.getAuthorities());
-        model.addAttribute("isUser", role.contains("ROLE_USER"));
-        model.addAttribute("isFoodtruck", role.contains("ROLE_FOODTRUCK"));
-        model.addAttribute("categories", categories);
-        model.addAttribute("foodtruck", foodtruckEntity);
-
-        return "/foodtruckDetails";
+    @RequestMapping("/updateUserProfile")
+    public String updateUserProfile(Authentication authentication, UserModel userModel) {
+        UserEntity userEntity = userServiceImpl.findUser(authentication.getName());
+        if (userModel.getContact().length() == 10 && userModel.getName().length() >= 3) {
+            userEntity.setContact(userModel.getContact());
+            userEntity.setName(userModel.getName());
+            userServiceImpl.updateUser(userEntity);
+        }
+        return "redirect:/user/userDashboard";
     }
 }

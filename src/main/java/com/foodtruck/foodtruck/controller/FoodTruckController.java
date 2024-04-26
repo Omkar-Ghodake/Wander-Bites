@@ -97,22 +97,6 @@ public class FoodTruckController {
 
     }
 
-    @RequestMapping("/updateFoodtruckImage")
-    public String updateFoodtruckImage(@RequestParam("img") MultipartFile img,
-            @AuthenticationPrincipal CustomUserDetails customUserDetails) throws IOException {
-        try {
-            FoodtruckEntity foodtruckEntity = foodTruckService.findFoodTruckByEmail(customUserDetails.getUsername());
-            if (img.isEmpty())
-                foodtruckEntity.setFoodTruckImage(null);
-            else
-                foodtruckEntity.setFoodTruckImage(Base64.getEncoder().encodeToString(img.getBytes()));
-            foodTruckService.updateFoodTruck(foodtruckEntity);
-            return "redirect:/foodTruck/foodTruckDashboard";
-        } catch (Exception e) {
-            return "redirect:/foodTruck/foodTruckDashboard";
-        }
-    }
-
     @RequestMapping("/foodTruckDashboard")
     public String foodTruckDashboard(@AuthenticationPrincipal CustomUserDetails user, Model model) {
         FoodtruckEntity foodtruckEntity = foodTruckService.findFoodTruckByEmail(user.getUsername());
@@ -143,36 +127,8 @@ public class FoodTruckController {
             model.addAttribute("isUserLogged", false);
         else
             model.addAttribute("isUserLogged", true);
-
-        model.addAttribute("categories", categories);
-        model.addAttribute("foodtruck", foodtruckEntity);
-        return "foodTruck";
-    }
-
-    @RequestMapping("/foodTruckDashboardByCategory/{category}")
-    public String foodTruckDashboardByCategory(@PathVariable("category") String category,
-            @AuthenticationPrincipal CustomUserDetails user, Model model) {
-        FoodtruckEntity foodtruckEntity = foodTruckService.findFoodTruckByEmail(user.getUsername());
-        foodtruckEntity.setId(null);
-        foodtruckEntity.setPassword(null);
-        foodtruckEntity.setRole(null);
-
-        Set<String> categories = new HashSet<String>();
-        for (MenuEntity menuItem : foodtruckEntity.getMenuEntity())
-            categories.add(menuItem.getCategory());
-
-        List<MenuEntity> menuList = menuListServiceImpl.filterMenuList(category);
-        foodtruckEntity.setMenuEntity(menuList);
-
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        Set<String> role = AuthorityUtils.authorityListToSet(authentication.getAuthorities());
-        model.addAttribute("isUser", role.contains("ROLE_USER"));
-        model.addAttribute("isFoodtruck", role.contains("ROLE_FOODTRUCK"));
-        if (authentication == null || authentication instanceof AnonymousAuthenticationToken)
-            model.addAttribute("isUserLogged", false);
-        else
-            model.addAttribute("isUserLogged", true);
-
+        model.addAttribute("totalPhotos", foodtruckEntity.getGalleryPhotos().size());
+        model.addAttribute("totalReviews", foodtruckEntity.getFeedbacks().size());
         model.addAttribute("categories", categories);
         model.addAttribute("foodtruck", foodtruckEntity);
         return "foodTruck";
@@ -219,21 +175,6 @@ public class FoodTruckController {
             FoodtruckEntity foodtruckEntity = foodTruckService.findFoodTruckByEmail(customUserDetails.getUsername());
             foodtruckEntity.setLat(Double.parseDouble(lat));
             foodtruckEntity.setLongi(Double.parseDouble(longi));
-            foodTruckService.updateFoodTruck(foodtruckEntity);
-            return "redirect:/foodTruck/foodTruckDashboard";
-        } catch (Exception e) {
-            m.addAttribute("error", "Something Wrong Try Again");
-            return "redirect:/foodTruck/foodTruckDashboard";
-        }
-
-    }
-
-    @RequestMapping("/setClosingTime")
-    public String setClosingTime(@RequestParam("closingTime") String closingTime,
-            @AuthenticationPrincipal CustomUserDetails customUserDetails, Model m) {
-        try {
-            FoodtruckEntity foodtruckEntity = foodTruckService.findFoodTruckByEmail(customUserDetails.getUsername());
-            foodtruckEntity.setClosingTime(closingTime);
             foodTruckService.updateFoodTruck(foodtruckEntity);
             return "redirect:/foodTruck/foodTruckDashboard";
         } catch (Exception e) {
@@ -313,7 +254,7 @@ public class FoodTruckController {
         return "redirect:/foodTruck/foodTruckDashboard";
     }
 
-    @RequestMapping("/updateTruck")
+    @RequestMapping("/truckProfile")
     public String updateTruck(Authentication authentication, Model model) {
         FoodtruckEntity foodtruckEntity = foodTruckService.findFoodTruckByEmail(authentication.getName());
         foodtruckEntity.setId(null);
@@ -321,5 +262,21 @@ public class FoodTruckController {
         foodtruckEntity.setRole(null);
         model.addAttribute("foodtruck", foodtruckEntity);
         return "/updateFoodtruck";
+    }
+
+    @RequestMapping("/updateFoodTruckDetails")
+    public String updateFoodTruckDetails(Authentication authentication, FoodTruckModel foodTruckModel,
+            @RequestParam("file") MultipartFile file) throws IOException {
+        FoodtruckEntity foodtruckEntity = foodTruckService.findFoodTruckByEmail(authentication.getName());
+        foodtruckEntity.setOpeningTime(foodTruckModel.getOpeningTime());
+        foodtruckEntity.setClosingTime(foodTruckModel.getClosingTime());
+        foodtruckEntity.setName(foodTruckModel.getName());
+        foodtruckEntity.setFoodTruckName(foodTruckModel.getFoodTruckName());
+        foodtruckEntity.setContact(foodTruckModel.getContact());
+        foodtruckEntity.setAddress(foodTruckModel.getAddress());
+        if (!file.isEmpty())
+            foodtruckEntity.setFoodTruckImage(Base64.getEncoder().encodeToString(file.getBytes()));
+        foodTruckService.updateFoodTruck(foodtruckEntity);
+        return "redirect:/foodTruck/foodTruckDashboard";
     }
 }

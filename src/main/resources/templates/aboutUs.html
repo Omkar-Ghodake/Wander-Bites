@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Home Page</title>
+    <link href="/css/style.css" rel="stylesheet" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <link rel="icon" type="image/x-icon" href="/img/LOGO NEW.png" />
+  </head>
+  <body class="bg-gray-100 p-0 m-0">
+    <nav class="navbar">
+      <img src="/img/LOGO NEW.png" class="nav-logo" alt="" />
+
+      <ul class="nav-list">
+        <!-- <input type="text" placeholder="Search for trucks,cuisine" /> -->
+        <li>
+          <button class="back">
+            <a href="/public/">Back</a>
+          </button>
+        </li>
+      </ul>
+    </nav>
+
+    <div style="padding: 7vh 5vw">
+      <div class="mt-[2rem]">
+        <h1
+          style="
+            text-align: center;
+            font-size: 2rem;
+            font-weight: bold;
+            text-decoration: underline;
+            text-underline-offset: 0.5rem;
+            color: white;
+          "
+        >
+          AboutUS
+        </h1>
+
+        <div style="margin-top: 1.5rem; color: white">
+          <div style="padding: 0.5rem 1rem; border: 1px white solid">
+            <h1
+              style="
+                font-weight: bold;
+                margin-bottom: 0.5rem;
+                font-size: 1.5rem;
+                cursor: pointer;
+              "
+              onclick="showAboutUs(1)"
+            >
+              Our Mission
+            </h1>
+            <p
+              id="aboutUs1"
+              style="
+                text-align: justify;
+                animation-duration: 500;
+                font-size: 1.2rem;
+              "
+              class="hideAboutUs"
+            >
+              We're on a mission to bring the vibrant world of food trucks right
+              to your fingertips. Our platform is dedicated to connecting hungry
+              customers with their favorite local food trucks, making it easier
+              than ever to satisfy your cravings on the go.
+            </p>
+          </div>
+
+          <div style="padding: 0.5rem 1rem; border: 1px white solid">
+            <h1
+              style="
+                font-weight: bold;
+                margin-bottom: 0.5rem;
+                font-size: 1.5rem;
+                cursor: pointer;
+              "
+              onclick="showAboutUs(2)"
+            >
+              Discover Local Flavor
+            </h1>
+            <p
+              id="aboutUs2"
+              style="
+                text-align: justify;
+                animation-duration: 500;
+                font-size: 1.2rem;
+              "
+              class="hideAboutUs"
+            >
+              Explore a diverse array of culinary delights, all conveniently
+              located in your area. From gourmet tacos to mouthwatering burgers,
+              we've curated an eclectic selection of food trucks that promise to
+              tantalize your taste buds.
+            </p>
+          </div>
+
+          <div style="padding: 0.5rem 1rem; border: 1px white solid">
+            <h1
+              style="
+                font-weight: bold;
+                margin-bottom: 0.5rem;
+                font-size: 1.5rem;
+                cursor: pointer;
+              "
+              onclick="showAboutUs(3)"
+            >
+              Supporting Small Businesses
+            </h1>
+            <p
+              id="aboutUs3"
+              style="
+                text-align: justify;
+                animation-duration: 500;
+                font-size: 1.2rem;
+              "
+              class="hideAboutUs"
+            >
+              At the heart of our platform is a commitment to supporting small
+              businesses and independent food vendors. By showcasing their
+              unique offerings, we're helping these entrepreneurs thrive and
+              contribute to the local community.
+            </p>
+          </div>
+
+          <div style="padding: 0.5rem 1rem; border: 1px white solid">
+            <h1
+              style="
+                font-weight: bold;
+                margin-bottom: 0.5rem;
+                font-size: 1.5rem;
+                cursor: pointer;
+              "
+              onclick="showAboutUs(4)"
+            >
+              User-Friendly Experience
+            </h1>
+            <p
+              id="aboutUs4"
+              style="
+                text-align: justify;
+                animation-duration: 500;
+                font-size: 1.2rem;
+              "
+              class="hideAboutUs"
+            >
+              Designed with simplicity in mind, our website makes it effortless
+              to find food trucks near you. Whether you're searching by cuisine,
+              location, or upcoming events, our intuitive interface ensures a
+              seamless browsing experience.
+            </p>
+          </div>
+
+          <div style="padding: 0.5rem 1rem; border: 1px white solid">
+            <h1
+              style="
+                font-weight: bold;
+                margin-bottom: 0.5rem;
+                font-size: 1.5rem;
+                cursor: pointer;
+              "
+              onclick="showAboutUs(5)"
+            >
+              Stay Informed
+            </h1>
+            <p
+              id="aboutUs5"
+              style="
+                text-align: justify;
+                animation-duration: 500;
+                font-size: 1.2rem;
+              "
+              class="hideAboutUs"
+            >
+              Keep up to date with the latest news and events in the food truck
+              scene. From special promotions to pop-up appearances, we'll keep
+              you informed so you never miss out on your favorite eats.
+            </p>
+          </div>
+
+          <div style="padding: 0.5rem 1rem; border: 1px white solid">
+            <h1
+              style="
+                font-weight: bold;
+                margin-bottom: 0.5rem;
+                font-size: 1.5rem;
+                cursor: pointer;
+              "
+              onclick="showAboutUs(6)"
+            >
+              Connect with Foodies
+            </h1>
+            <p
+              id="aboutUs6"
+              style="
+                text-align: justify;
+                animation-duration: 500;
+                font-size: 1.2rem;
+              "
+              class="hideAboutUs"
+            >
+              Join a community of fellow food enthusiasts who share your passion
+              for culinary exploration. Connect with like-minded individuals,
+              share recommendations, and discover hidden gems together.
+            </p>
+          </div>
+
+          <div style="padding: 0.5rem 1rem; border: 1px white solid">
+            <h1
+              style="
+                font-weight: bold;
+                margin-bottom: 0.5rem;
+                font-size: 1.5rem;
+                cursor: pointer;
+              "
+              onclick="showAboutUs(7)"
+            >
+              Feedback Welcome
+            </h1>
+            <p
+              id="aboutUs7"
+              style="
+                text-align: justify;
+                animation-duration: 500;
+                font-size: 1.2rem;
+              "
+              class="hideAboutUs"
+            >
+              We value your feedback and are constantly striving to improve our
+              platform. Have a suggestion for a new feature or a favorite food
+              truck you'd like to see featured? Let us know – your input helps
+              us serve you better.
+            </p>
+          </div>
+
+          <div style="padding: 0.5rem 1rem; border: 1px white solid">
+            <h1
+              style="
+                font-weight: bold;
+                margin-bottom: 0.5rem;
+                font-size: 1.5rem;
+                cursor: pointer;
+              "
+              onclick="showAboutUs(8)"
+            >
+              Get Involved
+            </h1>
+            <p
+              id="aboutUs8"
+              style="
+                text-align: justify;
+                animation-duration: 500;
+                font-size: 1.2rem;
+              "
+              class="hideAboutUs"
+            >
+              Interested in starting your own food truck or hosting a food truck
+              event? Reach out to us to learn more about how we can help turn
+              your culinary dreams into reality.
+            </p>
+          </div>
+
+          <div style="padding: 0.5rem 1rem; border: 1px white solid">
+            <h1
+              style="
+                font-weight: bold;
+                margin-bottom: 0.5rem;
+                font-size: 1.5rem;
+                cursor: pointer;
+              "
+              onclick="showAboutUs(9)"
+            >
+              Contact Us
+            </h1>
+            <p
+              id="aboutUs9"
+              style="
+                text-align: justify;
+                animation-duration: 500;
+                font-size: 1.2rem;
+              "
+              class="hideAboutUs"
+            >
+              Have questions or need assistance? Our dedicated support team is
+              here to help. Don't hesitate to reach out – we're always happy to
+              hear from you!
+            </p>
+          </div>
+
+          <div style="padding: 0.5rem 1rem; border: 1px white solid">
+            <h1
+              style="
+                font-weight: bold;
+                margin-bottom: 0.5rem;
+                font-size: 1.5rem;
+                cursor: pointer;
+              "
+              onclick="showAboutUs(10)"
+            >
+              Follow Us
+            </h1>
+            <p
+              id="aboutUs10"
+              style="
+                text-align: justify;
+                animation-duration: 500;
+                font-size: 1.2rem;
+              "
+              class="hideAboutUs"
+            >
+              Stay connected with us on social media for the latest updates,
+              mouthwatering photos, and behind-the-scenes peeks into the world
+              of food trucks. Join the conversation and be part of the food
+              truck revolution!
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      function showAboutUs(n) {
+        element = document.getElementById("aboutUs" + n);
+
+        if (element.classList.contains("hideAboutUs")) {
+          element.classList.remove("hideAboutUs");
+          element.classList.add("showAboutUs");
+        } else {
+          element.classList.remove("showAboutUs");
+          element.classList.add("hideAboutUs");
+        }
+      }
+    </script>
+  </body>
+</html>

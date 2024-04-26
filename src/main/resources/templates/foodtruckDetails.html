@@ -47,13 +47,17 @@
                   <span class="fa fa-star checked" th:text="${foodtruck.rating}"
                     >4.3</span
                   >
-                  <a href="#reviewsBox" class="review">3 reviews</a>
+                  <a href="#reviewsBox" class="review"
+                    ><span th:text="${totalReviews}"></span> reviews</a
+                  >
                   <h5 class="cuisine">Pizza,Italian,snacks</h5>
                 </div>
               </div>
               <div class="img-container">
                 <br /><br /><br />
-                <h1 class="view">Photos(6)</h1>
+                <h1 class="view">
+                  Photos(<span th:text="${totalPhotos}"></span>)
+                </h1>
                 <div
                   class="img-group"
                   style="

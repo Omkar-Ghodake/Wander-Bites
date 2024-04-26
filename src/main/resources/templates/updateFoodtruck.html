@@ -19,29 +19,67 @@
         </div>
       </nav><br>
 
-    <form class="upd-truck">
+    <form class="upd-truck" action="/foodTruck/updateFoodTruckDetails" method="post" enctype="multipart/form-data">
+      <h2 style="margin-bottom: 2rem;">Update FoodTruck</h2>
         <div class="mb-3">
           <label for="timing" class="form-label">Update opening timing</label>
-          <input type="time" class="form-control" id="timing" aria-describedby="emailHelp" ><br><br>
-          <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
+          <input type="time" class="form-control" id="timing" aria-describedby="emailHelp" name="openingTime" th:value="${foodtruck.openingTime}"><br><br>
           <label for="timing" class="form-label">Update closing timing</label>
-          <input type="time" class="form-control" id="timing" aria-describedby="emailHelp" >
+          <input type="time" class="form-control" id="timing" aria-describedby="emailHelp" name="closingTime" th:value="${foodtruck.closingTime}">
         </div><br>
-        <div class="mb-3">
+        <div class="mb-3" style="margin-bottom: 2rem;">
           <!-- <label for="exampleInputPassword1" class="form-label"></label> -->
-          <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Enter Cuisine"><br><br>
-          <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Enter Food item"><br><br>
-          <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Enter Price">
+          <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Name" name="name" th:value="${foodtruck.name}"><br><br>
+          <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Foodtruck Name" name="foodTruckName" th:value="${foodtruck.foodTruckName}"><br><br>
+          <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Email" name="email" th:value="${foodtruck.email}" disabled><br><br>
+          <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Contact" name="contact" th:value="${foodtruck.contact}"><br><br>
+          <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Address" name="address" th:value="${foodtruck.address}"><br><br>
+          <div class="flex flex-col items-center">
+            <img
+              th:src="@{'data:image/jpeg;base64,'+${foodtruck.foodTruckImage}}"
+              alt=""
+              style="width: 15rem; height: 10rem"
+              id="formDishePhoto"
+            />
+            <input type="file" name="file" style="margin-bottom: 1rem" />
+          </div>
 
-        </div><br>
-        <div class="mb-3 form-check">
-          <!-- <input type="checkbox" class="form-check-input" id="exampleCheck1">
-          <label class="form-check-label" for="exampleCheck1">Check me out</label> -->
-          <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Update Location"><br><br>
-          <!-- <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Enter Food items"> -->
-          <input type="file" class="form-control" id="exampleInputPassword1" placeholder="Update Location"><br><br>
         </div>
-        <button type="submit" class="btn btn-primary"><a href="./view-truck.html" class="submit">Submit</a></button>
+        <button type="submit" style="background-image: linear-gradient(
+          to right,
+          #3212ff,
+          #af00af,
+          #184144 100%,
+          #090c0c 200%
+        );
+        background-position-x: 0%;
+        background-size: 200%;
+        border: 0;
+        border-radius: 8px;
+        color: #fff;
+        padding: 0.5rem 2rem;
+        font-weight: bold;
+        text-shadow: 0 1px 1px #333;
+        transition: all 0.25s;">Update</button>
       </form>
+      <style>
+        input::file-selector-button {
+          background-image: linear-gradient(
+            to right,
+            #ff7a18,
+            #af002d,
+            #319197 100%,
+            #319197 200%
+          );
+          background-position-x: 0%;
+          background-size: 200%;
+          border: 0;
+          border-radius: 8px;
+          color: #fff;
+          padding: 0.5rem 1rem;
+          text-shadow: 0 1px 1px #333;
+          transition: all 0.25s;
+        }
+      </style>
 </body>
 </html>
