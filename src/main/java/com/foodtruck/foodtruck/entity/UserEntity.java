@@ -20,6 +20,7 @@ public class UserEntity {
     private String name;
     private String email;
     private String password;
+    private String contact;
     private String role = "ROLE_USER";
     private Double lat;
     private Double longi;
