@@ -1,88 +1,142 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-  <head th:insert="~{/component/Header.html :: head}">
-    <title>Register | FoodTruck</title>
-  </head>
-  <body>
-    <nav th:replace="~{/component/Navbar.html :: navbar}"></nav>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/css/style.css" />
+    <link
+      rel="icon"
+      type="image/x-icon"
+      href="/src/main/resources/static/img/favicon/LOGO NEW.png"
+    />
 
-    <div th:if="${error}!=''">
+    <title>Truck | Sign Up</title>
+  </head>
+
+  <body>
+    <nav class="sign">
+      <a href="/public/" class="a-logo"
+        ><img src="/img/LOGO NEW.png" class="logo"
+      /></a>
+      <h2 class="reg-head">TRUCK REGISTRATION PAGE</h2>
+      <!-- <button>Home</button> -->
+    </nav>
+
+    <div th:if="${error}!=''" class="user-alert">
       <div
         th:replace="~{/component/Toaster.html :: toaster(color=${error}=='Registration Successful, LogIn'?green:red,msg=${error})}"
       ></div>
     </div>
 
-    <div class="flex justify-center items-center w-[100vw] h-[93vh] px-[2rem]">
-    <form
-      action="/foodTruck/saveNewFoodTruck"
-      class=""
-      method="post"
-      enctype="multipart/form-data"
-    >
-    <div
-          class="flex flex-col bg-white pb-[5vh] rounded-md shadow-md shadow-black"
-        >
-          <div
-            class="flex justify-center items-center mb-[2rem] rounded-t-md border-[1px] border-black"
+    <div class="reg-form">
+      <form
+        action="/foodTruck/saveNewFoodTruck"
+        method="post"
+        enctype="multipart/form-data"
+        class="reg"
+      >
+        <div class="input-group">
+          <!-- <label for="email">Email</label> -->
+          <input
+            type="email"
+            name="email"
+            placeholder="Enter mail"
+            class="input1 input"
+            required
+          />
+        </div>
+        <br />
+        <div class="input-group">
+          <!-- <label for="email">Contact Numbe</label> -->
+          <input
+            type="text"
+            name="contact"
+            placeholder="Enter contact number"
+            class="input2 input"
+            required
+          />
+        </div>
+        <br />
+        <div class="input-group">
+          <!-- <label for="email">Contact Numbe</label> -->
+          <input
+            type="text"
+            placeholder="Enter truck name"
+            name="foodTruckName"
+            class="input3 input"
+            required
+          />
+        </div>
+        <br />
+        <div class="input-group">
+          <!-- <label for="email">Contact Numbe</label> -->
+          <input
+            type="text"
+            name="name"
+            placeholder="Enter Your Name"
+            class="input4 input"
+            required
+          />
+        </div>
+        <br />
+
+        <div class="input-group">
+          <!-- <label for="email">Contact Numbe</label> -->
+          <input
+            type="password"
+            name="password"
+            placeholder="Enter password"
+            class="input4 input"
+            required
+          />
+        </div>
+
+        <br />
+
+        <div class="input-group">
+          <!-- <label for="email">Contact Numbe</label> -->
+          <input
+            type="password"
+            name="cpassword"
+            placeholder="Confirm password"
+            class="input4 input"
+            required
+          />
+        </div>
+        <br />
+
+        <div class="input-group" style="display: flex; flex-direction: column">
+          <!-- <label for="email">Contact Numbe</label> -->
+          <label for="img" class="" style="color: white"
+            >Upload Your Cover Photo</label
           >
-          <a
-              href="/public/registerUser"
-              class="text-center w-[45%] py-[1rem] text-[1rem] font-semibold"
-              >Register User</a
-            >
-            <a
-              href="/public/registerFoodTruck"
-              class="text-center w-[55%] py-[1rem] text-[1rem] font-ibold bg-blue-400 rounded-tr-md text-white"
-              >Register FoodTruck</a
-            >
-          </div>
-          <div class="px-[2rem] flex flex-col">
-      <label for="name" class="font-semibold text-[1rem] mb-[0.5rem]">Full Name</label>
-      <input type="text" name="name" required class="w-[65vw] h-[4vh] border-[1px] border-black focus:outline-none pl-[0.5rem] text-[1.1rem] rounded-md mb-[0.5rem]"/>
+          <input
+            type="file"
+            name="img"
+            placeholder=""
+            class="input4 input"
+            required
+            style="
+              color: white;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              padding: 2px 0;
+              padding-top: 6px;
+              border-radius: 0;
+              margin-top: 5px;
+            "
+          />
+        </div>
+        <br />
 
-      <label for="foodTruckName" class="font-semibold text-[1rem] mb-[0.5rem]">FoodTruck Name</label>
-      <input type="text" name="foodTruckName" required class="w-[65vw] h-[4vh] border-[1px] border-black focus:outline-none pl-[0.5rem] text-[1.1rem] rounded-md mb-[0.5rem]"/>
-
-      <label for="email" class="font-semibold text-[1rem] mb-[0.5rem]">Email</label>
-      <input type="email" name="email" required class="w-[65vw] h-[4vh] border-[1px] border-black focus:outline-none pl-[0.5rem] text-[1.1rem] rounded-md mb-[0.5rem]"/>
-
-      <label for="img" class="font-semibold text-[1rem] mb-[0.5rem]">Cover Photo</label>
-      <input type="file" name="img" required class="file:bg-gradient-to-b file:from-blue-400 file:to-blue-600 w-[65vw] file:text-white file:rounded-l-md file:border-0 file:h-full file:font-semibold file:mr-[1rem] file:text-[1rem] font-semibold text-[1rem] h-[4vh] border-[1px] border-black focus:outline-none rounded-md mb-[0.5rem]"/>
-
-      <label for="password" class="font-semibold text-[1rem] mb-[0.5rem]">Password</label>
-      <div
-              class="border-[1px] border-black h-[4vh] rounded-md text-[1.1rem] flex items-center mb-[0.5rem] flex justify-center items-center"
-            >
-      <input id="pass" type="password" name="password" class="w-[56vw] focus:outline-none pl-[0.5rem] text-[1.1rem] rounded-md" required />
-      <div class="cursor-pointer" onclick="handlePass()">
-        <i class="fa-solid fa-eye" id="show"></i
-        ><i class="fa-solid fa-eye-slash hidden" id="hide"></i>
-      </div>
+        <button class="reg-button">
+          <a href="./truck_home.html" class="link-reg">Register</a>
+        </button>
+        <p class="login-link">
+          Already a User? <a href="./login_truck.html">Sign In</a>
+        </p>
+      </form>
     </div>
-
-      <label for="cpassword" class="font-semibold text-[1rem] mb-[0.5rem]">Confirm Password</label>
-      <div
-              class="border-[1px] border-black h-[4vh] rounded-md text-[1.1rem] flex items-center mb-[1rem] flex justify-center items-center"
-            >
-      <input id="cpass" type="password" name="cpassword" class="w-[56vw] focus:outline-none pl-[0.5rem] text-[1.1rem] rounded-md" required />
-      <div class="cursor-pointer" onclick="handleCPass()">
-        <i class="fa-solid fa-eye" id="cshow"></i
-        ><i class="fa-solid fa-eye-slash hidden" id="chide"></i>
-      </div>
-    </div>
-    <script src="/js/passwordVisibility.js"></script>
-      <button type="submit" class="bg-blue-400 text-white text-lg font-semibold rounded-lg py-[0.3rem] shadow-sm shadow-black mb-[1.3rem]">Register FoodTruck</button>
-      <p>
-        Old User?
-        <a
-          href="/public/loginPage"
-          class="text-blue-500 underline underline-offset-[0.3rem]"
-        >
-          LogIn</a
-        >
-      </p>
-    </div>
-    </div>
-    </form>
   </body>
 </html>

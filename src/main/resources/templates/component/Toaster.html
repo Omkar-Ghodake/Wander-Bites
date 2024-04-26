@@ -5,18 +5,18 @@
   class="w-full flex justify-center items-center absolute top-0 z-[-1]"
 >
   <script>
-    let toaster = document.getElementById("toaster");
+    let toaster = document.getElementById('toaster')
     setTimeout(() => {
-      toaster.classList.add("translate-y-[4rem]");
-      toaster.classList.add("duration-500");
-    }, 500);
+      toaster.classList.add('translate-y-[4rem]')
+      toaster.classList.add('duration-500')
+    }, 500)
     setTimeout(() => {
-      toaster.classList.remove("translate-y-[4rem]");
-      toaster.classList.remove("duration-500");
+      toaster.classList.remove('translate-y-[4rem]')
+      toaster.classList.remove('duration-500')
 
-      toaster.classList.add("translate-y-[-4rem]");
-      toaster.classList.add("duration-500");
-    }, 4000);
+      toaster.classList.add('translate-y-[-4rem]')
+      toaster.classList.add('duration-500')
+    }, 4000)
   </script>
   <div
     th:if="${color}=='red'"

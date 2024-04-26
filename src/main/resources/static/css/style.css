@@ -8,7 +8,7 @@
   padding: 0;
 }
 body {
-  background-image: url('./images/paula-vermeulen-URjZkhqsuBk-unsplash.jpg');
+  background-image: url('/img/paula-vermeulen-URjZkhqsuBk-unsplash.jpg');
   background-repeat: no-repeat;
   background-size: cover;
 }
@@ -783,4 +783,18 @@ hr {
 .flex-contain {
   display: flex;
   gap: 10vw;
+}
+
+.user-alert {
+  position: fixed;
+  top: rem;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem 5px;
+  background-color: white;
+  color: black;
+  z-index: 1000;
 }

@@ -1,12 +1,31 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-  <head th:insert="~{/component/Header.html :: head}">
-    <title>Home | Page</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WanderBites</title>
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="icon" type="image/x-icon" href="/img/LOGO NEW.png" />
   </head>
-  <body class="bg-gray-100 p-0 m-0">
-    <nav th:replace="~{/component/Navbar.html :: navbar}"></nav>
 
-    <div
+  <body class="bg-gray-100 p-0 m-0">
+    <nav>
+      <!-- <div class="left">
+            <p>WANDERBITES</p>
+        </div> -->
+      <div class="right">
+        <a href="#" class="a-logo"
+          ><img src="/img/LOGO NEW.png" class="logo"
+        /></a>
+        <ul class="items">
+          <!-- <p>WANDERBITES</p> -->
+          <a href="/public/registerFoodTruck"><li class="box">Truck</li></a>
+          <a href="/public/registerUser"><li class="box">Customer</li></a>
+        </ul>
+      </div>
+    </nav>
+
+    <!-- <div
       class="bg-[url(/img/foodtruck.png)] bg-cover flex flex-col justify-center items-center h-[40vh]"
     >
       <div
@@ -125,6 +144,10 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
+
+    <main>
+      <h2>WanderBites</h2>
+    </main>
   </body>
 </html>
