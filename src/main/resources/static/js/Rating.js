@@ -1,11 +1,9 @@
 function handleRating(n) {
   for (let i = 1; i <= 5; i++) {
     if (n >= i) {
-      document.getElementById("star" + i).classList.remove("fa-regular");
-      document.getElementById("star" + i).classList.add("fa-solid");
+      document.getElementById("star" + i).classList.add("c");
     } else {
-      document.getElementById("star" + i).classList.remove("fa-solid");
-      document.getElementById("star" + i).classList.add("fa-regular");
+      document.getElementById("star" + i).classList.remove("c");
     }
   }
   document.getElementById("rating").value = n;

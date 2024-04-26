@@ -1,12 +1,227 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-  <head th:insert="~{/component/Header.html :: head}">
-    <title>FoodTruck</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Home Page</title>
+    <link href="/css/style.css" rel="stylesheet" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <link rel="icon" type="image/x-icon" href="/img/LOGO NEW.png" />
   </head>
   <body class="bg-gray-100 p-0 m-0">
-    <nav th:replace="~{/component/Navbar.html :: navbar}"></nav>
+    <nav class="navbar">
+      <img src="/img/LOGO NEW.png" class="nav-logo" alt="" />
 
-    <div class="py-[3vh] w-full">
+      <ul class="nav-list">
+        <!-- <input type="text" placeholder="Search for trucks,cuisine" /> -->
+        <li>
+          <button class="back"><a href="/user/userDashboard">Back</a></button>
+        </li>
+      </ul>
+    </nav>
+
+    <div class="container">
+      <div class="content">
+        <div class="card-cus">
+          <div class="content-cus">
+            <div class="container1">
+              <div class="flex-contain">
+                <img
+                  th:src="'data:image/jpeg;base64,'+${foodtruck.foodTruckImage}"
+                  alt="trucklogo"
+                />
+                <div class="container2">
+                  <a
+                    th:href="@{'https://www.google.com/maps/place/'+${foodtruck.lat}+','+${foodtruck.longi}}"
+                    target="_blank"
+                    class="tl"
+                    >Truck Location</a
+                  >
+                  <h1 class="view" th:text="${foodtruck.foodTruckName}">
+                    The Hibachi Hut
+                  </h1>
+
+                  <span class="fa fa-star checked" th:text="${foodtruck.rating}"
+                    >4.3</span
+                  >
+                  <a href="#reviewsBox" class="review">3 reviews</a>
+                  <h5 class="cuisine">Pizza,Italian,snacks</h5>
+                </div>
+              </div>
+              <div class="img-container">
+                <br /><br /><br />
+                <h1 class="view">Photos(6)</h1>
+                <div
+                  class="img-group"
+                  style="
+                    display: flex;
+                    flex-direction: row;
+                    width: 60vw;
+                    flex-wrap: wrap;
+                  "
+                >
+                  <div th:each="img : ${foodtruck.galleryPhotos}">
+                    <img
+                      th:src="'data:image/jpeg;base64,'+${img.image}"
+                      alt=""
+                      class="img1"
+                    />
+                  </div>
+                  <!-- <img src="./Food truck/photos/c2.1.jpg" alt="" class="img4" /> -->
+                </div>
+              </div>
+              <hr />
+
+              <div class="menu-container" style="height: auto">
+                <h2 class="view">Menu</h2>
+                <div th:each="category : ${categories}">
+                  <h3 class="view" th:text="${category}"></h3>
+
+                  <div class="card-container">
+                    <div
+                      class="menu-card"
+                      th:each="menu : ${foodtruck.menuEntity}"
+                      th:if="${category}==${menu.category}"
+                    >
+                      <div class="card-head" style="flex-direction: column">
+                        <b th:text="${menu.disheName}"></b>
+                        <img
+                          th:src="'data:image/jpeg;base64,'+${menu.dishePhoto}"
+                          alt=""
+                        />
+                      </div>
+                      <div
+                        class="card-body"
+                        th:text="${menu.disheDescription}"
+                      ></div>
+                      <div
+                        class="card-footer"
+                        style="display: flex; justify-content: space-between"
+                      >
+                        <div>
+                          Price: &#8377;<span th:text="${menu.price}"></span>
+                        </div>
+                        <div>
+                          Discount:
+                          <span th:text="${menu.discount}"></span>&percnt;
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="review-container" style="">
+                <p id="reviewsBox" style="margin-top: 10rem">Reviews</p>
+              </div>
+              <div class="truck-review">
+                <div class="review-summary">
+                  <p th:text="${foodtruck.rating}"></p>
+                  <ul>
+                    <li
+                      th:class="'fa fa-star ' + ${foodtruck.rating>=1?'c':''}"
+                    ></li>
+                    <li
+                      th:class="'fa fa-star ' + ${foodtruck.rating>=2?'c':''}"
+                    ></li>
+                    <li
+                      th:class="'fa fa-star ' + ${foodtruck.rating>=3?'c':''}"
+                    ></li>
+                    <li
+                      th:class="'fa fa-star ' + ${foodtruck.rating>=4?'c':''}"
+                    ></li>
+                    <li
+                      th:class="'fa fa-star ' + ${foodtruck.rating>=5?'c':''}"
+                    ></li>
+                  </ul>
+                  <br />
+
+                  <form action="/user/saveFeedback" method="post">
+                    <div>
+                      <input
+                        type="text"
+                        class="userreview"
+                        name="feedback"
+                        style="padding-left: 0.5rem"
+                        placeholder="Write a review"
+                      />
+                      <input
+                        type="text"
+                        name="foodtruckEmail"
+                        th:value="${foodtruck.email}"
+                        hidden
+                      />
+                      <input
+                        type="text"
+                        name="rating"
+                        id="rating"
+                        placeholder="Rating"
+                        required
+                        hidden
+                      />
+                      <div style="margin-top: 2rem; font-size: 1.5rem">
+                        <i
+                          class="fa fa-star"
+                          onclick="handleRating(1)"
+                          id="star1"
+                        ></i
+                        ><i
+                          class="fa fa-star"
+                          onclick="handleRating(2)"
+                          id="star2"
+                        ></i
+                        ><i
+                          class="fa fa-star"
+                          onclick="handleRating(3)"
+                          id="star3"
+                        ></i
+                        ><i
+                          class="fa fa-star"
+                          onclick="handleRating(4)"
+                          id="star4"
+                        ></i
+                        ><i
+                          class="fa fa-star"
+                          onclick="handleRating(5)"
+                          id="star5"
+                        ></i>
+                      </div>
+                      <button
+                        type="submit"
+                        style="padding: 1rem 2rem; margin-top: 1rem"
+                      >
+                        Submit
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+              <br />
+              <div class="reviewstart">
+                <div
+                  class="r-card"
+                  style="margin-bottom: 1rem"
+                  th:each="review : ${foodtruck.feedbacks}"
+                >
+                  <div class="card-head">
+                    <b th:text="${review.userName}"></b>
+                    <!-- <img src="./Food truck/photos/italyc1.jpg" alt="" /> -->
+                  </div>
+                  <div class="card-body" th:text="${review.feedback}"></div>
+                  <hr />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="/js/script.js"></script>
+
+    <!-- <div class="py-[3vh] w-full">
       <div class="px-[5vw] w-full flex flex-col justify-center items-center">
         <div>
           <img
@@ -54,9 +269,9 @@
 
       <div
         class="flex justify-between border-[1px] border-t-black border-b-black mt-[2rem] bg-white"
-      >
-        <!-- handleFoodtruckMenu is defined in Rating.js file -->
-        <h1
+      > -->
+    <!-- handleFoodtruckMenu is defined in Rating.js file -->
+    <!-- <h1
           id="menuBtn"
           class="py-[0.5rem] font-semibold px-[2rem] cursor-pointer bg-gray-400"
           onclick="handleFoodtruckMenu('menu')"
@@ -77,13 +292,13 @@
         >
           Feedbacks
         </h1>
-      </div>
+      </div> -->
 
-      <!-- below div is for foodtruck Menu -->
-      <div id="menu" class="">
-        <!-- Filter by Category wise -->
-        <!-- Filter Js is written in Rating.js file -->
-        <div
+    <!-- below div is for foodtruck Menu -->
+    <!-- <div id="menu" class=""> -->
+    <!-- Filter by Category wise -->
+    <!-- Filter Js is written in Rating.js file -->
+    <!-- <div
           class="bg-white border-b-[1px] border-black py-[0.5rem] px-[1rem] flex justify-between items-center"
         >
           <p th:unless="${category}" class="font-semibold">All Category</p>
@@ -167,9 +382,9 @@
             </div>
           </div>
         </div>
-      </div>
-      <!-- below div is for foodtruck photo gallery -->
-      <div id="gallery" class="hidden">
+      </div> -->
+    <!-- below div is for foodtruck photo gallery -->
+    <!-- <div id="gallery" class="hidden">
         <div
           class="flex flex-wrap justify-center"
           th:each="img : ${foodtruck.galleryPhotos}"
@@ -180,10 +395,10 @@
             class="w-[23rem] h-[30rem] my-[0.5rem]"
           />
         </div>
-      </div>
+      </div> -->
 
-      <!-- below div is for foodtruck feedback -->
-      <div id="feedback" class="hidden">
+    <!-- below div is for foodtruck feedback -->
+    <!-- <div id="feedback" class="hidden">
         <div
           class="flex flex-col justify-center items-center py-[1rem] border-[1px] border-b-black"
         >
@@ -241,7 +456,6 @@
                   onclick="handleRating(5)"
                   id="star5"
                 ></i>
-                <script src="/js/Rating.js"></script>
               </div>
               <div class="flex justify-center items-center">
                 <button
@@ -292,6 +506,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
+    <script src="/js/Rating.js"></script>
   </body>
 </html>

@@ -1,13 +1,87 @@
 <!DOCTYPE html>
 <!-- solve user location problem before doing any thing -->
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-  <head th:insert="~{/component/Header.html :: head}">
-    <title>FoodTruck | User</title>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Home Page</title>
+    <link href="/css/style.css" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="/img/LOGO NEW.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   </head>
-  <body onload="" class="bg-gray-100 p-0 m-0">
-    <nav th:replace="~{/component/Navbar.html :: navbar}"></nav>
-    <div class="px-[4vw] pt-[7vh] pb-[5vh]">
-      <!-- below code is responsible for getting user location -->
+  <body>
+    <nav class="navbar">
+      <img src="/img/LOGO NEW.png" class="nav-logo" alt="">
+      <ul class="nav-list">
+        <!-- <p>WANDERBITES</p> -->
+        
+        <li class="right">
+          <i class="fa fa-search"></i>
+          <input type="text" placeholder="Search for trucks,cuisine" />
+        </li>
+        <li>
+          <!-- <a href="#"><li class="box">Account</li></a> -->
+          <div class="dropdown">
+            <a href="#" class="box-acc" onclick=drop()>Account</a>
+            <div id="myDropdown" class="dropdown-content">
+              <a href="#about">About Us</a>
+              <a href="#contact">Contact Us</a>
+              <a href="/logout">Logout</a>
+            </div>
+          </div>
+        </li>
+        <li>
+          <button class="loc-access" onclick="getLocation()">Location Access</button>
+        </li>
+      </ul>
+      </div>
+    </nav>
+<!-- below code is responsible for getting user location -->
+<form action="/user/getUserLocation" method="post" hidden>
+  <p id="msg"></p>
+  <input type="text" name="lat" id="lat" th:value="${user.lat}" />
+  <input type="text" name="long" id="long" th:value="${user.longi}" />
+  <button type="submit" id="sendLocation">Go Online</button>
+</form>
+
+<div class="content">
+  <h2>Nearby Trucks</h2><br>
+  <div style="display: flex; flex-wrap: wrap; flex-direction: row; justify-content: center; align-items: center;" >
+    <div  style="width: 26rem; display: flexbox; border: 5px solid black; padding: 20px; text-align: center; background-color: rgba(20, 20, 20, 0.45); margin: 0.5rem 0.5rem;" th:each="foodtruck : ${foodtrucks}">
+      <h3 th:text="${foodtruck.foodTruckName}">Name of truck</h3><br>
+      <div class="cus-info">
+        <div class="cus-review">
+          <span class="heading"><b>Rating: </b></span><span><i class="fa fa-star"></i></span><span th:text="${foodtruck.rating}"></span>
+        </div><br>
+        <div class="time">
+          <p class="heading"><b>Timings: </b></p>
+          <p>Opens at <span th:text="${foodtruck.openingTime}"></span></p>
+          <p>Closes at <span th:text="${foodtruck.closingTime}"></span></p>
+        </div><br>
+        <div class="det-cus">
+          <p class="heading"><b>Address: </b></p>
+          <p th:text="${foodtruck.address}"></p>
+        </div><br>
+        <div class="contact-cus">
+          <p class="heading"><b>Contact: </b></p>
+          <p><i class="fa fa-phone"></i>+91 <span th:text="${foodtruck.contact}"></span></p>
+        </div>
+        <div class="btn">
+          <button><a th:href="@{'/user/foodtruckDetails/'+${foodtruck.email}}">View</a></button>
+          <button><a th:href="@{'https://www.google.com/maps/place/'+${foodtruck.lat}+','+${foodtruck.longi}}"
+            target="_blank">Locate</a></button>
+        </div>
+      </div>
+    </div>
+    </div>
+</div>
+
+
+
+
+<!-- below code is responsible for getting user location -->
+    <!-- <div class="px-[4vw] pt-[7vh] pb-[5vh]">
+      
       <form action="/user/getUserLocation" method="post" hidden>
         <p id="msg"></p>
         <input type="text" name="lat" id="lat" th:value="${user.lat}" />
@@ -86,7 +160,8 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
     <script th:src="@{/js/getUserLocation.js}"></script>
+    <script src="/js/script.js"></script>
   </body>
 </html>

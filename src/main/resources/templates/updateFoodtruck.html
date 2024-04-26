@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Details</title>
+    <link href="/css/style.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="/img/LOGO NEW.png">
+</head>
+<body>
+    <nav class="navbar-truck">
+        <img src="/img/LOGO NEW.png" class="nav-logo" alt="">
+        <ul class="nav-list-truck">
+          <li>
+            <button class="box-back"><a href="/foodTruck/foodTruckDashboard"><i class="fa-solid fa-left-long"></i> Back</a></button>
+          </li>
+        </ul>
+        </div>
+      </nav><br>
+
+    <form class="upd-truck">
+        <div class="mb-3">
+          <label for="timing" class="form-label">Update opening timing</label>
+          <input type="time" class="form-control" id="timing" aria-describedby="emailHelp" ><br><br>
+          <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
+          <label for="timing" class="form-label">Update closing timing</label>
+          <input type="time" class="form-control" id="timing" aria-describedby="emailHelp" >
+        </div><br>
+        <div class="mb-3">
+          <!-- <label for="exampleInputPassword1" class="form-label"></label> -->
+          <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Enter Cuisine"><br><br>
+          <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Enter Food item"><br><br>
+          <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Enter Price">
+
+        </div><br>
+        <div class="mb-3 form-check">
+          <!-- <input type="checkbox" class="form-check-input" id="exampleCheck1">
+          <label class="form-check-label" for="exampleCheck1">Check me out</label> -->
+          <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Update Location"><br><br>
+          <!-- <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Enter Food items"> -->
+          <input type="file" class="form-control" id="exampleInputPassword1" placeholder="Update Location"><br><br>
+        </div>
+        <button type="submit" class="btn btn-primary"><a href="./view-truck.html" class="submit">Submit</a></button>
+      </form>
+</body>
+</html>

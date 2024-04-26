@@ -28,6 +28,7 @@ public class FoodtruckEntity {
     private String foodTruckName;
     private String email;
     private String contact;
+    private String address;
     private String password;
     private String role = "ROLE_FOODTRUCK";
 
@@ -53,4 +54,5 @@ public class FoodtruckEntity {
     private List<MenuEntity> menuEntity;
 
     private String status;
+    private Float rating;
 }

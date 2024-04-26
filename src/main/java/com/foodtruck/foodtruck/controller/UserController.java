@@ -14,7 +14,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -85,11 +84,24 @@ public class UserController {
         UserEntity u = userServiceImpl.findUser(user.getUsername());
         List<FoodtruckEntity> foodtruckEntity = foodTruckServiceImpl.getAllFoodTrucksNearMe();
         DecimalFormat decimalFormat = new DecimalFormat("0.00");
+        DecimalFormat df = new DecimalFormat("0.0");
         try {
+            float rating = 0;
             for (int i = 0; i < foodtruckEntity.size(); i++) {
                 foodtruckEntity.get(i).setId(null);
                 foodtruckEntity.get(i).setPassword(null);
                 foodtruckEntity.get(i).setRole(null);
+                if (foodtruckEntity.get(i).getFeedbacks().size() != 0) {
+                    for (int j = 0; j < foodtruckEntity.get(i).getFeedbacks().size(); j++) {
+                        rating += foodtruckEntity.get(i).getFeedbacks().get(j).getRating();
+                    }
+                    rating = rating / Float.valueOf(foodtruckEntity.get(i).getFeedbacks().size());
+                } else {
+                    foodtruckEntity.get(i).setRating(0f);
+                }
+
+                foodtruckEntity.get(i).setRating(Float.valueOf(df.format(rating)));
+                rating = 0;
                 foodtruckEntity.get(i)
                         .setDistance(Double.parseDouble(
                                 decimalFormat.format(findDistance.calculateDistance(u.getLat(), u.getLongi(),
@@ -131,19 +143,23 @@ public class UserController {
     public String saveFeedback(FeedbackModel feedbackModel, Model m,
             @AuthenticationPrincipal CustomUserDetails customUserDetails) {
         try {
-            UserEntity userEntity = userServiceImpl.findUser(customUserDetails.getUsername());
-            FoodtruckEntity foodtruckEntity = foodTruckServiceImpl
-                    .findFoodTruckByEmail(feedbackModel.getFoodtruckEmail());
+            if (feedbackModel.getFeedback() != null) {
+                UserEntity userEntity = userServiceImpl.findUser(customUserDetails.getUsername());
+                FoodtruckEntity foodtruckEntity = foodTruckServiceImpl
+                        .findFoodTruckByEmail(feedbackModel.getFoodtruckEmail());
 
-            FoodtruckFeedbacksEntity foodtruckFeedbacks = new FoodtruckFeedbacksEntity();
-            foodtruckFeedbacks.setFeedback(feedbackModel.getFeedback());
-            foodtruckFeedbacks.setRating(feedbackModel.getRating());
-            foodtruckFeedbacks.setUserName(userEntity.getName());
+                FoodtruckFeedbacksEntity foodtruckFeedbacks = new FoodtruckFeedbacksEntity();
+                foodtruckFeedbacks.setFeedback(feedbackModel.getFeedback());
+                foodtruckFeedbacks.setRating(feedbackModel.getRating());
+                foodtruckFeedbacks.setUserName(userEntity.getName());
 
-            foodtruckEntity.getFeedbacks().add(foodtruckFeedbacks);
-            foodTruckServiceImpl.updateFoodTruck(foodtruckEntity);
+                foodtruckEntity.getFeedbacks().add(foodtruckFeedbacks);
+                foodTruckServiceImpl.updateFoodTruck(foodtruckEntity);
 
-            return "redirect:/user/foodtruckDetails/" + feedbackModel.getFoodtruckEmail();
+                return "redirect:/user/foodtruckDetails/" + feedbackModel.getFoodtruckEmail();
+            } else {
+                return "redirect:/user/foodtruckDetails/" + feedbackModel.getFoodtruckEmail();
+            }
         } catch (Exception e) {
             m.addAttribute("error", "Something Wrong");
             return "redirect:/user/foodtruckDetails/" + feedbackModel.getFoodtruckEmail();
@@ -154,10 +170,21 @@ public class UserController {
     @RequestMapping("/foodtruckDetails/{email}")
     public String showFoodTruckDetails(@PathVariable("email") String email, Model model) {
         FoodtruckEntity foodtruckEntity = foodTruckServiceImpl.findFoodTruckByEmail(email);
-
         foodtruckEntity.setId(null);
         foodtruckEntity.setPassword(null);
         foodtruckEntity.setRole(null);
+        DecimalFormat decimalFormat = new DecimalFormat("0.0");
+        float rating = 0;
+        if (foodtruckEntity.getFeedbacks().size() != 0) {
+            for (int i = 0; i < foodtruckEntity.getFeedbacks().size(); i++) {
+                rating += foodtruckEntity.getFeedbacks().get(i).getRating();
+            }
+            rating = rating / foodtruckEntity.getFeedbacks().size();
+            foodtruckEntity.setRating(Float.valueOf(decimalFormat.format(rating)));
+        } else {
+            foodtruckEntity.setRating(0f);
+        }
+
         Set<String> categories = new HashSet<String>();
         for (MenuEntity menuEntity : foodtruckEntity.getMenuEntity())
             categories.add(menuEntity.getCategory());

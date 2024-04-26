@@ -19,8 +19,15 @@
         /></a>
         <ul class="items">
           <!-- <p>WANDERBITES</p> -->
-          <a href="/public/registerFoodTruck"><li class="box">Truck</li></a>
-          <a href="/public/registerUser"><li class="box">Customer</li></a>
+          <a href="/public/registerFoodTruck" th:unless="${isUserLogged}"
+            ><li class="box">Truck</li></a
+          >
+          <a href="/public/registerUser" th:unless="${isUserLogged}"
+            ><li class="box">Customer</li></a
+          >
+          <a href="/logout" th:if="${isUserLogged}"
+            ><li class="box">LogOut</li></a
+          >
         </ul>
       </div>
     </nav>
@@ -148,6 +155,35 @@
 
     <main>
       <h2>WanderBites</h2>
+      <div
+        th:if="${isUserLogged}"
+        style="text-align: center; width: 40vw; margin-top: 2vh"
+      >
+        <div th:if="${isUser}">
+          <a
+            th:href="@{/user/userDashboard}"
+            class="box"
+            style="
+              background-color: black;
+              font-size: 2rem;
+              padding: 0.5rem 1rem;
+            "
+            >Contine</a
+          >
+        </div>
+        <div th:if="${isFoodtruck}" class="mt-[1rem]">
+          <a
+            th:href="@{/foodTruck/foodTruckDashboard}"
+            class="box"
+            style="
+              background-color: black;
+              font-size: 2rem;
+              padding: 0.5rem 1rem;
+            "
+            >Contine</a
+          >
+        </div>
+      </div>
     </main>
   </body>
 </html>

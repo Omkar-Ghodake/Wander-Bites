@@ -1,6 +1,7 @@
 package com.foodtruck.foodtruck.controller;
 
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.Base64;
 import java.util.HashSet;
 import java.util.List;
@@ -118,6 +119,17 @@ public class FoodTruckController {
         foodtruckEntity.setId(null);
         foodtruckEntity.setPassword(null);
         foodtruckEntity.setRole(null);
+        DecimalFormat decimalFormat = new DecimalFormat("0.0");
+        float rating = 0;
+        if (foodtruckEntity.getFeedbacks().size() != 0) {
+            for (int i = 0; i < foodtruckEntity.getFeedbacks().size(); i++) {
+                rating += foodtruckEntity.getFeedbacks().get(i).getRating();
+            }
+            rating = rating / foodtruckEntity.getFeedbacks().size();
+            foodtruckEntity.setRating(Float.valueOf(decimalFormat.format(rating)));
+        } else {
+            foodtruckEntity.setRating(0f);
+        }
 
         Set<String> categories = new HashSet<String>();
         for (MenuEntity menuItem : foodtruckEntity.getMenuEntity())
@@ -299,5 +311,15 @@ public class FoodTruckController {
 
         menuListServiceImpl.updateMenuItem(menuItem);
         return "redirect:/foodTruck/foodTruckDashboard";
+    }
+
+    @RequestMapping("/updateTruck")
+    public String updateTruck(Authentication authentication, Model model) {
+        FoodtruckEntity foodtruckEntity = foodTruckService.findFoodTruckByEmail(authentication.getName());
+        foodtruckEntity.setId(null);
+        foodtruckEntity.setPassword(null);
+        foodtruckEntity.setRole(null);
+        model.addAttribute("foodtruck", foodtruckEntity);
+        return "/updateFoodtruck";
     }
 }
