@@ -184,8 +184,14 @@ public class FoodTruckController {
 
     }
 
+    @RequestMapping("/addMenu")
+    public String addMenu() {
+        return "/addMenuItem";
+    }
+
     @RequestMapping("/addMenuItem")
-    public String addMenu(@AuthenticationPrincipal CustomUserDetails customUserDetails, Model model,
+    public String addMenu(@AuthenticationPrincipal CustomUserDetails customUserDetails,
+            Model model,
             MenuModel menuModel, @RequestParam("dishePhoto") MultipartFile file) {
         try {
             FoodtruckEntity foodtruckEntity = foodTruckService.findFoodTruckByEmail(customUserDetails.getUsername());

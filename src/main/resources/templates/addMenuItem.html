@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Home Page</title>
+    <link href="/css/style.css" rel="stylesheet" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <link rel="icon" type="image/x-icon" href="/img/LOGO NEW.png" />
+  </head>
+  <body>
+    <nav class="navbar">
+      <img src="/img/LOGO NEW.png" class="nav-logo" alt="" />
+
+      <ul class="nav-list">
+        <!-- <input type="text" placeholder="Search for trucks,cuisine" /> -->
+        <li>
+          <button class="back">
+            <a href="/foodTruck/foodTruckDashboard">Back</a>
+          </button>
+        </li>
+      </ul>
+    </nav>
+    <div>
+      <form
+        class="upd-truck"
+        action="/foodTruck/addMenuItem"
+        method="post"
+        enctype="multipart/form-data"
+      >
+        <div class="flex flex-col">
+          <h2 style="margin-bottom: 1rem">Add Dish</h2>
+          <input type="text" name="id" id="formDisheId" hidden />
+
+          <input
+            type="text"
+            name="disheName"
+            id="formDisheName"
+            style="
+              padding: 0.5rem 1rem;
+              width: 14vw;
+              font-size: 1rem;
+              margin-bottom: 1rem;
+            "
+            placeholder="Dishe Name"
+          />
+
+          <input
+            type="text"
+            name="disheDescription"
+            id="formDisheDescription"
+            style="
+              padding: 0.5rem 1rem;
+              width: 14vw;
+              font-size: 1rem;
+              margin-bottom: 1rem;
+            "
+            placeholder="Dishe Description"
+          />
+
+          <input
+            type="text"
+            name="price"
+            id="formDishePrice"
+            style="
+              padding: 0.5rem 1rem;
+              width: 14vw;
+              font-size: 1rem;
+              margin-bottom: 1rem;
+            "
+            placeholder="Price"
+          />
+
+          <input
+            type="text"
+            name="discount"
+            id="formDisheDiscount"
+            style="
+              padding: 0.5rem 1rem;
+              width: 14vw;
+              font-size: 1rem;
+              margin-bottom: 1rem;
+            "
+            placeholder="Discount"
+          />
+
+          <input
+            type="text"
+            name="category"
+            id="formDisheCategory"
+            style="
+              padding: 0.5rem 1rem;
+              width: 14vw;
+              font-size: 1rem;
+              margin-bottom: 1rem;
+            "
+            placeholder="Category"
+          />
+          <input type="file" name="dishePhoto" style="margin-bottom: 1rem" />
+          <button
+            type="submit"
+            style="
+              background-image: linear-gradient(
+                to right,
+                #3212ff,
+                #af00af,
+                #184144 100%,
+                #090c0c 200%
+              );
+              background-position-x: 0%;
+              background-size: 200%;
+              border: 0;
+              border-radius: 8px;
+              color: #fff;
+              padding: 0.5rem 1rem;
+              text-shadow: 0 1px 1px #333;
+              transition: all 0.25s;
+            "
+          >
+            Update Dishe
+          </button>
+        </div>
+      </form>
+    </div>
+    <style>
+      input::file-selector-button {
+        background-image: linear-gradient(
+          to right,
+          #ff7a18,
+          #af002d,
+          #319197 100%,
+          #319197 200%
+        );
+        background-position-x: 0%;
+        background-size: 200%;
+        border: 0;
+        border-radius: 8px;
+        color: #fff;
+        padding: 0.5rem 1rem;
+        text-shadow: 0 1px 1px #333;
+        transition: all 0.25s;
+      }
+    </style>
+  </body>
+</html>
