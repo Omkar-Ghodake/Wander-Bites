@@ -15,9 +15,25 @@
       <ul class="nav-list">
         <!-- <p>WANDERBITES</p> -->
         
-        <li class="right">
-          <i class="fa fa-search"></i>
-          <input type="text" placeholder="Search for trucks,cuisine" />
+        <li class="right" style="margin-right: 1rem;">
+          <form action="/user/searchTruck" method="post">
+            <input type="text" name="query" placeholder="Search for trucks,cuisine" required/>
+            <button type="submit" style="background-image: linear-gradient(
+              to right,
+              #ff7a18,
+              #af002d,
+              #319197 100%,
+              #319197 200%
+            );
+            background-position-x: 0%;
+            background-size: 200%;
+            border: 0;
+            border-radius: 8px;
+            color: #fff;
+            padding: 0.5rem 1rem;
+            text-shadow: 0 1px 1px #333;
+            transition: all 0.25s;">Search</button>
+          </form>
         </li>
         <li>
           <!-- <a href="#"><li class="box">Account</li></a> -->
@@ -36,6 +52,14 @@
       </ul>
       </div>
     </nav>
+    
+      <div style="background-color: white; " id="errorMsg" th:if="${error}">
+        <p style="text-align: center;" th:text="${error}"></p>
+      </div>
+      <script>
+        setTimeout(()=>{document.getElementById("errorMsg").style.display="none"},2000);
+        
+      </script>
 <!-- below code is responsible for getting user location -->
 <form action="/user/getUserLocation" method="post" hidden>
   <p id="msg"></p>

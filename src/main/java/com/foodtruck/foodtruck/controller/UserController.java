@@ -1,6 +1,7 @@
 package com.foodtruck.foodtruck.controller;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -14,6 +15,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -82,7 +84,8 @@ public class UserController {
     }
 
     @RequestMapping("/userDashboard")
-    public String userDashboard(@AuthenticationPrincipal CustomUserDetails user, Model model) {
+    public String userDashboard(@AuthenticationPrincipal CustomUserDetails user, Model model,
+            @ModelAttribute("error") String error) {
         UserEntity u = userServiceImpl.findUser(user.getUsername());
         List<FoodtruckEntity> foodtruckEntity = foodTruckServiceImpl.getAllFoodTrucksNearMe();
         DecimalFormat decimalFormat = new DecimalFormat("0.00");
@@ -126,6 +129,7 @@ public class UserController {
         else
             model.addAttribute("isUserLogged", true);
 
+        model.addAttribute("error", error);
         model.addAttribute("user", u);
         model.addAttribute("foodtrucks", foodtruckEntity);
         return "users";
@@ -221,5 +225,82 @@ public class UserController {
             userServiceImpl.updateUser(userEntity);
         }
         return "redirect:/user/userDashboard";
+    }
+
+    @RequestMapping("/searchTruck")
+    public String searchTruck(@RequestParam("query") String query, Model model, Authentication auth,
+            RedirectAttributes m) {
+        if (query.length() >= 3) {
+            UserEntity u = userServiceImpl.findUser(auth.getName());
+            List<FoodtruckEntity> foodtruckEntities = foodTruckServiceImpl.getAllFoodTrucksNearMe();
+            List<FoodtruckEntity> foodtrucks = new ArrayList<FoodtruckEntity>();
+            for (int i = 0; i < foodtruckEntities.size(); i++) {
+                if (foodtruckEntities.get(i).getFoodTruckName().contains(query)) {
+                    foodtrucks.add(foodtruckEntities.get(i));
+                }
+                for (int j = 0; j < foodtruckEntities.get(i).getMenuEntity().size(); j++) {
+                    if (foodtruckEntities.get(i).getMenuEntity().get(j).getCategory().contains(query)
+                            || foodtruckEntities.get(i).getMenuEntity().get(j).getDisheDescription().contains(query)
+                            || foodtruckEntities.get(i).getMenuEntity().get(j).getDisheName().contains(query)) {
+                        if (!foodtrucks.contains(foodtruckEntities.get(i))) {
+                            foodtrucks.add(foodtruckEntities.get(i));
+                        }
+                    }
+                }
+            }
+            if (foodtrucks.isEmpty()) {
+                m.addFlashAttribute("error", "No match found.");
+                return "redirect:/user/userDashboard";
+            } else {
+                DecimalFormat decimalFormat = new DecimalFormat("0.00");
+                DecimalFormat df = new DecimalFormat("0.0");
+                try {
+                    float rating = 0;
+                    for (int i = 0; i < foodtrucks.size(); i++) {
+                        foodtrucks.get(i).setId(null);
+                        foodtrucks.get(i).setPassword(null);
+                        foodtrucks.get(i).setRole(null);
+                        if (foodtrucks.get(i).getFeedbacks().size() != 0) {
+                            for (int j = 0; j < foodtrucks.get(i).getFeedbacks().size(); j++) {
+                                rating += foodtrucks.get(i).getFeedbacks().get(j).getRating();
+                            }
+                            rating = rating / Float.valueOf(foodtrucks.get(i).getFeedbacks().size());
+                        } else {
+                            foodtrucks.get(i).setRating(0f);
+                        }
+
+                        foodtrucks.get(i).setRating(Float.valueOf(df.format(rating)));
+                        rating = 0;
+                        foodtrucks.get(i)
+                                .setDistance(Double.parseDouble(
+                                        decimalFormat.format(findDistance.calculateDistance(u.getLat(), u.getLongi(),
+                                                foodtrucks.get(i).getLat(), foodtrucks.get(i).getLongi()))));
+                    }
+                    foodtrucks = sortFoodTrucksByDistance.sortObject(foodtrucks);
+                } catch (Exception e) {
+                    for (int i = 0; i < foodtrucks.size(); i++) {
+                        foodtrucks.get(i).setId(null);
+                        foodtrucks.get(i).setPassword(null);
+                        foodtrucks.get(i).setRole(null);
+                    }
+                }
+                Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+                Set<String> role = AuthorityUtils.authorityListToSet(authentication.getAuthorities());
+                model.addAttribute("isUser", role.contains("ROLE_USER"));
+                model.addAttribute("isFoodtruck", role.contains("ROLE_FOODTRUCK"));
+
+                if (authentication == null || authentication instanceof AnonymousAuthenticationToken)
+                    model.addAttribute("isUserLogged", false);
+                else
+                    model.addAttribute("isUserLogged", true);
+
+                model.addAttribute("user", u);
+                model.addAttribute("foodtrucks", foodtrucks);
+                return "users";
+            }
+        } else {
+            m.addFlashAttribute("error", "No match found.");
+            return "redirect:/user/userDashboard";
+        }
     }
 }
