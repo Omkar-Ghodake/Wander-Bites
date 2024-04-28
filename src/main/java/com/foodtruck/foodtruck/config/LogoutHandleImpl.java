@@ -35,8 +35,6 @@ public class LogoutHandleImpl implements LogoutHandler {
             userEntity.setLat(null);
             userEntity.setLongi(null);
             userServiceImpl.updateUser(userEntity);
-
-            System.out.println(userEntity);
         } else {
             FoodtruckEntity foodtruckEntity = foodTruckServiceImpl.findFoodTruckByEmail(authentication.getName());
             foodtruckEntity.setStatus("Closed");

@@ -71,6 +71,8 @@ public class FoodTruckController {
                     foodtruckEntity.setName(foodTruckModel.getName());
                     foodtruckEntity.setFoodTruckName(foodTruckModel.getFoodTruckName());
                     foodtruckEntity.setEmail(foodTruckModel.getEmail());
+                    foodtruckEntity.setLat(foodTruckModel.getLat());
+                    foodtruckEntity.setLongi(foodTruckModel.getLongi());
                     foodtruckEntity.setPassword(passwordEncoder.encode(foodTruckModel.getPassword()));
                     if (img.isEmpty())
                         foodtruckEntity.setFoodTruckImage(null);
@@ -90,9 +92,9 @@ public class FoodTruckController {
             }
 
         } catch (Exception e) {
+            System.out.println("error : " + e);
             m.addAttribute("error", "Something Wrong Try Again");
             return "redirect:/public/registerFoodTruck";
-
         }
 
     }

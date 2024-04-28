@@ -31,6 +31,7 @@ public class PublicController {
         return "index";
     }
 
+    // http://localhost:8080/public/registerFoodTruck
     @RequestMapping("/registerFoodTruck")
     public String registerFoodTruck(@ModelAttribute("error") String error, Model m) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

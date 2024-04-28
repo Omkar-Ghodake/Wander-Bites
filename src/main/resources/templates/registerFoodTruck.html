@@ -125,6 +125,8 @@
           />
         </div>
         <br />
+        <input type="text" name="lat" id="lat" hidden />
+        <input type="text" name="longi" id="long" hidden />
 
         <button class="reg-button">
           <a href="./truck_home.html" class="link-reg">Register</a>
@@ -134,5 +136,18 @@
         </p>
       </form>
     </div>
+    <script>
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition);
+      } else {
+        msg.innerHTML = "Geolocation is not supported by this browser.";
+      }
+      function showPosition(position) {
+        lat = document.getElementById("lat");
+        long = document.getElementById("long");
+        lat.value = position.coords.latitude;
+        long.value = position.coords.longitude;
+      }
+    </script>
   </body>
 </html>

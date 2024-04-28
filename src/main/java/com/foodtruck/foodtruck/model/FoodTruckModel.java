@@ -17,4 +17,6 @@ public class FoodTruckModel {
     private String cpassword;
     private String openingTime;
     private String closingTime;
+    private Double lat;
+    private Double longi;
 }
